@@ -25,6 +25,7 @@ public class Selection {
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
     
+    @Column(columnDefinition = "TINYINT")
     private Integer status = 0;
     
     @Column(columnDefinition = "VARCHAR(500)")

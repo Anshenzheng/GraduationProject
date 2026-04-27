@@ -45,7 +45,7 @@ import { ApiService, Thesis, Selection, PageResult } from '../../services/api.se
           <tbody>
             <tr *ngFor="let thesis of theses">
               <td>{{ thesis.title }}</td>
-              <td *ngIf="!authService.isStudent()">{{ thesis.student?.user?.name }}</td>
+              <td *ngIf="!authService.isStudent()">{{ thesis.student.user.name }}</td>
               <td>v{{ thesis.version }}</td>
               <td>
                 <span [ngClass]="getStatusClass(thesis.status)">
@@ -146,7 +146,7 @@ import { ApiService, Thesis, Selection, PageResult } from '../../services/api.se
         </div>
         <div class="detail-item">
           <span class="detail-label">学生姓名：</span>
-          <span class="detail-value">{{ selectedThesis.student?.user?.name }}</span>
+          <span class="detail-value">{{ selectedThesis.student.user.name }}</span>
         </div>
         <div class="detail-item">
           <span class="detail-label">版本：</span>

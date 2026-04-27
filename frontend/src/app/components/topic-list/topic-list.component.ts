@@ -61,7 +61,7 @@ import { ApiService, Topic, TopicType, PageResult } from '../../services/api.ser
             <div style="display: flex; gap: 24px; margin-bottom: 16px;">
               <span style="color: #8c8c8c;">
                 <i nz-icon nzType="user" nzTheme="outline" style="margin-right: 4px;"></i>
-                指导教师：{{ topic.teacher?.user?.name }}
+                指导教师：{{ topic.teacher.user.name }}
               </span>
               <span style="color: #8c8c8c;">
                 <i nz-icon nzType="team" nzTheme="outline" style="margin-right: 4px;"></i>

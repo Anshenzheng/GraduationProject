@@ -4,18 +4,28 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from '../../services/auth.service';
 import { ApiService, Topic, Selection, Thesis } from '../../services/api.service';
 
+export interface OverviewData {
+  totalTopics: number;
+  activeTopics: number;
+  totalSelections: number;
+  approvedSelections: number;
+  pendingSelections: number;
+  totalTheses: number;
+  approvedTheses: number;
+}
+
 @Component({
   selector: 'app-dashboard',
   template: `
     <div class="page-container">
       <div class="page-header">
-        <h2>欢迎回来，{{ authService.getCurrentUser()?.name }}</h2>
+        <h2>欢迎回来，{{ currentUserName }}</h2>
         <p>今天是 {{ today | date: 'yyyy年MM月dd日' }}</p>
       </div>
 
       <div class="stats-cards" *ngIf="!authService.isAdmin()">
         <nz-card *ngIf="authService.isStudent()">
-          <nz-statistic [nzValue]="studentSelectionStatus ? (studentSelectionStatus === 1 ? '已通过' : studentSelectionStatus === 0 ? '待审核' : '已拒绝') : '未选题'" [nzTitle]="'选题状态'" [nzSuffix]="''">
+          <nz-statistic [nzValue]="studentSelectionStatusDisplay" [nzTitle]="'选题状态'" [nzSuffix]="''">
           </nz-statistic>
         </nz-card>
         <nz-card *ngIf="authService.isStudent()">
@@ -33,22 +43,22 @@ import { ApiService, Topic, Selection, Thesis } from '../../services/api.service
         <h3 style="margin-bottom: 16px;">系统概览</h3>
         <div class="stats-cards" style="margin-bottom: 0;">
           <nz-card>
-            <nz-statistic [nzValue]="overviewStatistics?.totalTopics || 0" [nzTitle]="'总题目数'" [nzPrefix]="'📚'"></nz-statistic>
+            <nz-statistic [nzValue]="overviewData?.totalTopics || 0" [nzTitle]="'总题目数'" [nzPrefix]="'📚'"></nz-statistic>
           </nz-card>
           <nz-card>
-            <nz-statistic [nzValue]="overviewStatistics?.activeTopics || 0" [nzTitle]="'上架题目数'" [nzPrefix]="'📖'"></nz-statistic>
+            <nz-statistic [nzValue]="overviewData?.activeTopics || 0" [nzTitle]="'上架题目数'" [nzPrefix]="'📖'"></nz-statistic>
           </nz-card>
           <nz-card>
-            <nz-statistic [nzValue]="overviewStatistics?.totalSelections || 0" [nzTitle]="'总选题数'" [nzPrefix]="'📋'"></nz-statistic>
+            <nz-statistic [nzValue]="overviewData?.totalSelections || 0" [nzTitle]="'总选题数'" [nzPrefix]="'📋'"></nz-statistic>
           </nz-card>
           <nz-card>
-            <nz-statistic [nzValue]="overviewStatistics?.approvedSelections || 0" [nzTitle]="'已通过选题数'" [nzPrefix]="'✅'"></nz-statistic>
+            <nz-statistic [nzValue]="overviewData?.approvedSelections || 0" [nzTitle]="'已通过选题数'" [nzPrefix]="'✅'"></nz-statistic>
           </nz-card>
           <nz-card>
-            <nz-statistic [nzValue]="overviewStatistics?.pendingSelections || 0" [nzTitle]="'待审核选题数'" [nzPrefix]="'⏳'"></nz-statistic>
+            <nz-statistic [nzValue]="overviewData?.pendingSelections || 0" [nzTitle]="'待审核选题数'" [nzPrefix]="'⏳'"></nz-statistic>
           </nz-card>
           <nz-card>
-            <nz-statistic [nzValue]="overviewStatistics?.totalTheses || 0" [nzTitle]="'总论文数'" [nzPrefix]="'📄'"></nz-statistic>
+            <nz-statistic [nzValue]="overviewData?.totalTheses || 0" [nzTitle]="'总论文数'" [nzPrefix]="'📄'"></nz-statistic>
           </nz-card>
         </div>
       </div>
@@ -110,7 +120,18 @@ export class DashboardComponent implements OnInit {
   thesisCount = 0;
   topicCount = 0;
   pendingSelectionCount = 0;
-  overviewStatistics: { [key: string]: number } | null = null;
+  overviewData: OverviewData | null = null;
+  currentUserName = '';
+
+  get studentSelectionStatusDisplay(): string {
+    if (this.studentSelectionStatus === null) return '未选题';
+    switch (this.studentSelectionStatus) {
+      case 0: return '待审核';
+      case 1: return '已通过';
+      case 2: return '已拒绝';
+      default: return '未知';
+    }
+  }
 
   constructor(
     public authService: AuthService,
@@ -120,6 +141,8 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const user = this.authService.getCurrentUser();
+    this.currentUserName = user?.name || '';
     this.loadData();
   }
 
@@ -145,7 +168,18 @@ export class DashboardComponent implements OnInit {
       });
     } else if (this.authService.isAdmin()) {
       this.apiService.getOverviewStatistics().subscribe(res => {
-        this.overviewStatistics = res.data;
+        if (res.data) {
+          const data = res.data as any;
+          this.overviewData = {
+            totalTopics: data['totalTopics'] || 0,
+            activeTopics: data['activeTopics'] || 0,
+            totalSelections: data['totalSelections'] || 0,
+            approvedSelections: data['approvedSelections'] || 0,
+            pendingSelections: data['pendingSelections'] || 0,
+            totalTheses: data['totalTheses'] || 0,
+            approvedTheses: data['approvedTheses'] || 0
+          };
+        }
       });
     }
   }

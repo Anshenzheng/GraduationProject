@@ -21,6 +21,7 @@ public class ThesisReview {
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
     
+    @Column(columnDefinition = "TINYINT")
     private Integer status;
     
     @Column(columnDefinition = "TEXT")

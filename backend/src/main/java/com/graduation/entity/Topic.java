@@ -33,6 +33,7 @@ public class Topic {
     @Column(name = "current_students")
     private Integer currentStudents = 0;
     
+    @Column(columnDefinition = "TINYINT")
     private Integer status = 1;
     
     @Column(name = "created_at", updatable = false)

@@ -54,7 +54,7 @@ import { ApiService, Topic } from '../../services/api.service';
 
         <div class="detail-item">
           <span class="detail-label">教师院系：</span>
-          <span class="detail-value">{{ topic.teacher?.department || '暂无' }}</span>
+          <span class="detail-value">{{ topic.teacher.department || '暂无' }}</span>
         </div>
 
         <div class="detail-item">
