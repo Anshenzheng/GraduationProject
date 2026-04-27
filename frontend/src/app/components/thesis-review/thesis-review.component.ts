@@ -51,7 +51,7 @@ import { ApiService, Thesis, PageResult } from '../../services/api.service';
           </thead>
           <tbody>
             <tr *ngFor="let thesis of theses">
-              <td>{{ thesis.student?.user?.name }}</td>
+              <td>{{ thesis.student.user.name }}</td>
               <td>{{ thesis.title }}</td>
               <td>v{{ thesis.version }}</td>
               <td>{{ thesis.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
@@ -102,11 +102,11 @@ import { ApiService, Thesis, PageResult } from '../../services/api.service';
         </div>
         <div class="detail-item">
           <span class="detail-label">学生姓名：</span>
-          <span class="detail-value">{{ selectedThesis.student?.user?.name }}</span>
+          <span class="detail-value">{{ selectedThesis.student.user.name }}</span>
         </div>
         <div class="detail-item">
           <span class="detail-label">学号：</span>
-          <span class="detail-value">{{ selectedThesis.student?.studentNo }}</span>
+          <span class="detail-value">{{ selectedThesis.student.studentNo }}</span>
         </div>
         <div class="detail-item">
           <span class="detail-label">版本：</span>

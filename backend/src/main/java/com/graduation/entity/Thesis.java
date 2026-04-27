@@ -37,6 +37,7 @@ public class Thesis {
     
     private Integer version = 1;
     
+    @Column(columnDefinition = "TINYINT")
     private Integer status = 0;
     
     @Column(name = "created_at", updatable = false)

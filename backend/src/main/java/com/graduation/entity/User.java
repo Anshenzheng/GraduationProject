@@ -30,6 +30,7 @@ public class User {
     
     private String avatar;
     
+    @Column(columnDefinition = "TINYINT")
     private Integer status = 1;
     
     @Column(name = "created_at", updatable = false)
