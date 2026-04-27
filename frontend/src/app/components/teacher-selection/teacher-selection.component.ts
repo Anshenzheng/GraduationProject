@@ -51,9 +51,9 @@ import { ApiService, Selection, PageResult } from '../../services/api.service';
           </thead>
           <tbody>
             <tr *ngFor="let selection of selections">
-              <td>{{ selection.student?.user?.name }}</td>
-              <td>{{ selection.student?.studentNo }}</td>
-              <td>{{ selection.topic?.title }}</td>
+              <td>{{ selection.student.user.name }}</td>
+              <td>{{ selection.student.studentNo }}</td>
+              <td>{{ selection.topic.title }}</td>
               <td>{{ selection.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
               <td>
                 <span [ngClass]="getStatusClass(selection.status)">

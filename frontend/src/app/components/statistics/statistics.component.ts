@@ -2,6 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApiService } from '../../services/api.service';
 
+export interface OverviewData {
+  totalTopics: number;
+  activeTopics: number;
+  totalSelections: number;
+  approvedSelections: number;
+  pendingSelections: number;
+  totalTheses: number;
+  approvedTheses: number;
+}
+
 @Component({
   selector: 'app-statistics',
   template: `
@@ -97,7 +107,7 @@ import { ApiService } from '../../services/api.service';
   styles: []
 })
 export class StatisticsComponent implements OnInit {
-  overview: { [key: string]: number } | null = null;
+  overview: OverviewData | null = null;
   typeStatistics: { typeCount: { [key: string]: number }; typeSelected: { [key: string]: number } } | null = null;
   teacherStatistics: { teacherTopicCount: { [key: string]: number }; teacherStudentCount: { [key: string]: number } } | null = null;
 
@@ -124,7 +134,18 @@ export class StatisticsComponent implements OnInit {
 
   loadOverview(): void {
     this.apiService.getOverviewStatistics().subscribe(res => {
-      this.overview = res.data;
+      if (res.data) {
+        const data = res.data as any;
+        this.overview = {
+          totalTopics: data['totalTopics'] || 0,
+          activeTopics: data['activeTopics'] || 0,
+          totalSelections: data['totalSelections'] || 0,
+          approvedSelections: data['approvedSelections'] || 0,
+          pendingSelections: data['pendingSelections'] || 0,
+          totalTheses: data['totalTheses'] || 0,
+          approvedTheses: data['approvedTheses'] || 0
+        };
+      }
     });
   }
 

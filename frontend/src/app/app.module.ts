@@ -24,6 +24,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzTextareaModule } from 'ng-zorro-antd/input';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -85,7 +86,8 @@ import { AppRoutingModule } from './app-routing.module';
     NzDropDownModule,
     NzUploadModule,
     NzStatisticModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzProgressModule
   ],
   providers: [
     {
